@@ -41,6 +41,11 @@ jobs:
         cd myapp
         cordova build android --release
 
+    - name: List Files
+      run: |
+        cd myapp/platforms/android/app/build/outputs/apk/release
+        ls -lh
+
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
