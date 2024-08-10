@@ -1,4 +1,4 @@
-name: Build Cordova App
+name: Create and Build Cordova App
 
 on:
   push:
@@ -21,19 +21,22 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Install Cordova and dependencies
-      run: |
-        npm install -g cordova
-        npm install
+    - name: Install Cordova
+      run: npm install -g cordova
 
-    - name: Add Android platform
-      run: cordova platform add android
+    - name: Create Cordova project
+      run: |
+        cordova create myapp com.example.myapp MyApp
+        cd myapp
+        cordova platform add android
 
     - name: Build APK
-      run: cordova build android --release
+      run: |
+        cd myapp
+        cordova build android --release
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
         name: my-cordova-app-apk
-        path: platforms/android/app/build/outputs/apk/release/app-release.apk
+        path: myapp/platforms/android/app/build/outputs/apk/release/app-release.apk
